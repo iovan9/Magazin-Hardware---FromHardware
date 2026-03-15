@@ -2,10 +2,10 @@
 <html lang="ro">
 <head>
     <meta charset="UTF-8">
-    <title>Magazin Componente Hardware</title>
+    <title>FromHardware</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="keywords" content="procesoare, RAM, placa video, RTX, reduceri, componente pc">
-    <meta name="description" content="Magazinul tău de încredere pentru componente hardware, procesoare, și memorie RAM la cele mai bune prețuri.">
+    <meta name="description" content="Magazinul tau de incredere pentru componente hardware, procesoare, si memorie RAM la cele mai bune preturi.">
     <meta name="author" content="Iovan Razvan-Marian">
 
     <meta name="msapplication-TileColor" content="#2b5797">
@@ -16,27 +16,27 @@
     <link rel="manifest" href="./resurse/ico/site.webmanifest" />
 </head>
 <body id="top"> <header>
-    <h1>Magazin de componente hardware</h1>
+    <h1>FromHardware</h1>
 
     <hgroup>
-        <h2>Performanță extremă</h2>
-        <p>Echipamente pentru gaming și productivitate</p>
+        <h2>Performanta extrema</h2>
+        <p>Echipamente pentru gaming si productivitate</p>
     </hgroup>
 
     <a href="./resurse/imagini/sigla-mare.png" target="_blank">
-        <img src="./resurse/imagini/sigla.png" alt="Siglă magazin" title="Apasă pentru versiunea mărită" />
+        <img src="./resurse/imagini/sigla.png" alt="Sigla magazin" title="Apasa pentru versiunea marita" />
     </a>
 
     <nav>
         <ul>
-            <li>Acasă
+            <li>Acasa
                 <ul>
                     <li><a href="#produse">Produse Noi</a></li>
                     <li><a href="#evenimente">Evenimente</a></li>
                 </ul>
             </li>
-            <li><a href="#informatii">Informații și Suport</a></li>
-            <li><a href="./resurse/oferte.pdf" download="catalog_oferte_hardware.pdf">Descarcă Catalog</a></li>
+            <li><a href="#informatii">Informatii si Suport</a></li>
+            <li><a href="./resurse/oferte.pdf" download="catalog_oferte_hardware.pdf">Descarca Catalog</a></li>
             <li><a href="https://www.pcgarage.ro" target="_blank">Parteneri</a></li>
         </ul>
     </nav>
@@ -47,8 +47,8 @@
         <h2>Oferte curente</h2>
 
         <section>
-            <h3>Procesoare și Memorie</h3>
-            <p>Avem cele mai bune <b>procesoare</b> și <b>memorie RAM</b> pentru sistemul tău. <strong>Stocul se epuizează rapid, comandă acum!</strong></p>
+            <h3>Procesoare si Memorie</h3>
+            <p>Avem cele mai bune <b>procesoare</b> si <b>memorie RAM</b> pentru sistemul tau. <strong>Stocul se epuizeaza rapid, comanda acum!</strong></p>
 
             <figure>
                 <picture>
@@ -58,34 +58,62 @@
                 </picture>
                 <figcaption>Procesor AMD Ryzen 7 7800X3D (Versiunea Box)</figcaption>
             </figure>
+
+            <figure id="oferta-ram">
+                <picture>
+                    <source srcset="./resurse/imagini/ramddr5-mic.jpg" media="(max-width:700px)"/>
+                    <source srcset="./resurse/imagini/ramddr5-mediu.jpg" media="(max-width:1200px)"/>
+                    <img src="./resurse/imagini/ramddr5-mare.jpg" alt="Memorie RAM Corsair" title="Memorie RAM DDR5 Corsair Vengeance Pro la reducere" />
+                </picture>
+                <figcaption>Memorie RAM DDR5 Corsair Vengeance Pro</figcaption>
+            </figure>
+
         </section>
     </article>
 
     <section id="evenimente">
-        <h2>Program Evenimente și Lansări</h2>
+        <h2>Program Evenimente si Lansari</h2>
         <ul>
-            <li><time datetime="2026-03-20T10:00">20 Martie, ora 10:00</time> - <b>Lansare RTX 5090</b>: Prezentare live a noii generații de plăci video.</li>
+            <li><time datetime="2026-03-20T10:00">20 Martie, ora 10:00</time> - <b>Lansare RTX 5090</b>: Prezentare live a noii generatii de placi video.</li>
             <li><time datetime="2026-04-05T14:00">5 Aprilie, ora 14:00</time> - <b>Lichidare stoc RAM</b>: Oferim reduceri de <s>10%</s> <ins>25%</ins> la modulele DDR5.</li>
         </ul>
     </section>
 
     <section id="informatii">
-        <h2>Informații și Detalii</h2>
+        <h2>Informatii si Detalii</h2>
+
+        <h3>Calculul puterii necesare (Sursa de alimentare)</h3>
+        <p>Pentru a estima puterea necesara sistemului tau, poti folosi formula clasica pentru curent continuu:</p>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <mrow>
+                <mi>P</mi>
+                <mo>=</mo>
+                <mi>U</mi>
+                <mo>×</mo>
+                <mi>I</mi>
+            </mrow>
+        </math>
+        <p>Unde P = Puterea (Wati), U = Tensiunea (Volti), I = Intensitatea (Amperi).</p>
+
+        <h3>Catalog de oferte curente (PDF)</h3>
+        <object data="./resurse/oferte.pdf" type="application/pdf" width="100%" height="500px">
+            <p>Browserul tau nu suporta afisarea PDF-urilor. <a href="./resurse/Oferte.pdf" download>Descarca-l de aici</a>.</p>
+        </object>
 
         <details>
-            <summary>Care sunt condițiile de garanție?</summary>
-            <p>Toate componentele beneficiază de garanție standard de 24 de luni. Returul este gratuit în 14 zile.</p>
+            <summary>Care sunt conditiile de garantie?</summary>
+            <p>Toate componentele beneficiaza de garantie standard de 24 de luni. Returul este gratuit in 14 zile.</p>
         </details>
 
         <blockquote>
-            Alegerea unei surse de alimentare stabile este cel mai important pas în asamblarea unui PC de gaming.
+            Alegerea unei surse de alimentare stabile este cel mai important pas in asamblarea unui PC de gaming.
         </blockquote>
 
         <h3>Statistici Magazin</h3>
         <p>Disponibilitate stoc procesoare Intel: <meter value="15" min="0" max="100" low="20" high="80" optimum="90">15%</meter> (Stoc critic)</p>
-        <p>Satisfacția clienților pe luna trecută: <meter value="98" min="0" max="100" low="40" high="80" optimum="100">98%</meter> (Excelent)</p>
+        <p>Satisfactia clientilor pe luna trecuta: <meter value="98" min="0" max="100" low="40" high="80" optimum="100">98%</meter> (Excelent)</p>
 
-        <h3>Tutoriale Asamblare</h3>
+        <h3>Tutoriale recomandate</h3>
         <div>
             <a href="https://www.youtube.com/embed/gcy-Q99gvw8" target="player_video">Ghid cum sa-ti alegi piesele necesare</a> |
             <a href="https://www.youtube.com/embed/s1fxZ-VWs2U" target="player_video">Ghid complet asamblare</a> |
@@ -94,15 +122,18 @@
         <br>
         <iframe name="player_video" src="https://www.youtube.com/embed/s1fxZ-VWs2U" width="560" height="315" title="Tutorial asamblare PC"></iframe>
 
-        <h3>Listă Prețuri și Specificații</h3>
+        <h3>Playlist Video</h3>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/videoseries?list=PLm-djqjo5wQJM0hPdYJirLNuFZTZMIqhU&autoplay=1&loop=1&controls=1" title="YouTube Playlist" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+        <h3>Lista Preturi si Specificatii</h3>
         <table>
-            <caption>Comparație componente High-End</caption>
+            <caption>Comparatie componente High-End</caption>
             <thead>
             <tr>
-                <th>Componentă</th>
+                <th>Componenta</th>
                 <th>Model</th>
                 <th>Stoc</th>
-                <th>Preț (RON)</th>
+                <th>Pret (RON)</th>
             </tr>
             </thead>
             <tbody>
@@ -118,22 +149,38 @@
                 <td>3100</td>
             </tr>
             <tr>
-                <td>Placă Video</td>
+                <td>Placa Video</td>
                 <td colspan="2">NVIDIA GeForce RTX 4090</td>
                 <td>9500</td>
+            </tr>
+            <tr>
+                <td>Memorie RAM</td>
+                <td colspan="2">Corsair Vengeance DDR5 64GB</td>
+                <td>10 (Cumperi 1 la pret de 100)</td>
             </tr>
             </tbody>
             <tfoot>
             <tr>
                 <td colspan="3">Total estimat pentru build de top:</td>
-                <td>15500</td>
+                <td>16500</td>
             </tr>
             </tfoot>
         </table>
 
-        <p>Consultați documentația HTML aici:
-            <a href="https://developer.mozilla.org/en-US/docs/Web/HTML#referinta" target="_blank">
-                https://developer.mozilla.org/<wbr>en-US/<wbr>docs/<wbr>Web/<wbr>HTML#referinta
+        <h3>Harta interactiva: Placa de baza B450</h3>
+        <p>Da click pe componente pentru a vedea ofertele specifice.</p>
+
+        <img src="./resurse/imagini/b450.jpg" alt="Placa de baza interactiva" usemap="#mapa-hardware" width="300" height="300" />
+
+        <map name="mapa-hardware">
+            <area shape="rect" coords="110,65,175,135" href="#produse" alt="Procesoare" title="Vezi oferte Procesoare compatibile">
+
+            <area shape="rect" coords="190,15,250,165" href="#oferta-ram" alt="Memorie RAM" title="Vezi oferte Memorie RAM DDR4">
+        </map>
+
+        <p>De ce cresc preturile la memoriile RAM:
+            <a href="https://hotnews.ro/motivul-pentru-care-memoria-ram-a-ajuns-atat-de-scumpa-si-de-ce-situatia-doar-se-va-inrautati-2123231#articol" target="_blank">
+                https://hotnews.ro/<wbr>motivul-pentru-care-<wbr>memoria-ram-a-ajuns-<wbr>atat-de-scumpa-<wbr>si-de-ce-situatia-<wbr>doar-se-va-inrautati-2123231#articol
             </a>
         </p>
     </section>
@@ -142,23 +189,25 @@
 <footer>
     <address>
         Telefon contact: <a href="tel:+40712345678">0712 345 678</a><br>
-        Adresă fizică:<br>
+        Adresa fizica:<br>
         <a href="https://www.google.com/maps/search/Facultatea+de+Matematica+si+Informatica" target="_blank">
-            Facultatea de Matematică și Informatică,<br>
-            Craiova
-        </a><br>
+            Facultatea de Matematica si Informatica,<br>
+            Bucuresti
+        </a>
+        <br>
+        <iframe src="https://maps.google.com/maps?q=Facultatea+de+Matematica+si+Informatica+Bucuresti&t=&z=15&ie=UTF8&iwloc=&output=embed" width="400" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <br>
         E-mail suport: <a href="mailto:suport@magazin.ro">suport@magazin.ro</a><br>
-        Asistență rapidă: <a href="https://wa.me/40712345678" target="_blank">Chat pe WhatsApp</a>
+        Asistenta rapida: <a href="https://wa.me/40712345678" target="_blank">Chat pe WhatsApp</a>
     </address>
 
     <p>
         <small>
-            Copyright &copy; <time datetime="2026-03-05">5 Martie 2026</time> Iovan Răzvan-Marian. Toate drepturile rezervate.
+            Copyright © <time datetime="2026-03-05">5 Martie 2026</time> Iovan Razvan-Marian. Toate drepturile rezervate.
         </small>
     </p>
 
-    <p><a href="#top">Înapoi la începutul paginii</a></p>
+    <p><a href="#top">Inapoi la inceputul paginii</a></p>
 </footer>
-
 </body>
 </html>
