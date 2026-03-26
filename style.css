@@ -1,4 +1,3 @@
-/* 1. DEFINIRE VARIABILE (Cerința 1) */
 :root {
     --color-primary: #4FC7F7;
     --color-bg: #0f172a;
@@ -8,7 +7,6 @@
     --color-romb: #4FF77F;
 }
 
-/* 2. SETĂRI GENERALE */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -20,10 +18,9 @@ body {
     color: var(--color-text);
     font-family: 'Segoe UI', sans-serif;
     padding: 20px;
-    font-size: clamp(14px, 1.2vw, 18px); /* Redimensionare fluidă text */
+    font-size: clamp(14px, 1.2vw, 18px);
 }
 
-/* 3. GRID LAYOUT (Cerința 2 - Conform schiței) */
 main {
     display: grid;
     gap: 15px;
@@ -36,17 +33,15 @@ main {
         "z5 z4 z4 z7";
 }
 
-/* BORDER PENTRU FIECARE PARTE DIN LAYOUT */
 main > section,
 main > article,
 main > div {
-    border: 2px solid var(--color-border); /* Bordura solicitată pentru layout */
+    border: 2px solid var(--color-border); 
     padding: 15px;
     border-radius: 8px;
     background: rgba(255, 255, 255, 0.02);
 }
 
-/* Mapare ID-uri pe Zonele Grid */
 #z1 { grid-area: z1; border-color: var(--color-highlight); }
 #z2 { grid-area: z2; }
 #z3 { grid-area: z3; }
@@ -56,7 +51,6 @@ main > div {
 #z7 { grid-area: z7; }
 #z8 { grid-area: z8; border-width: 3px; border-color: var(--color-primary); }
 
-/* 4. FLEXBOX (Cerința 3 - Aplicată în Zona 3) */
 .flex-container-stats {
     display: flex;
     flex-direction: column;
@@ -65,7 +59,6 @@ main > div {
     min-height: 200px;
 }
 
-/* 5. TABEL (Cerința 4) */
 .table-container {
     overflow-x: auto;
     border: 2px solid var(--color-primary) !important;
@@ -74,19 +67,15 @@ main > div {
 table { width: 100%; border-collapse: collapse; }
 caption { caption-side: bottom; padding: 10px; color: var(--color-primary); }
 
-/* Borduri alternate între coloane */
 td:nth-child(even) { border: 1px solid var(--color-primary); }
 td:nth-child(odd) { border: 1px solid var(--color-border); }
 
-/* Grosime border thead/tfoot (de 3 ori mai mare) */
 thead { border-bottom: 3px solid var(--color-highlight); }
 tfoot { border-top: 3px solid var(--color-highlight); }
 
-/* Hover rând cu box-shadow (0.5s) */
 tr { transition: box-shadow 0.5s ease; }
 tr:hover { box-shadow: inset 0 0 15px var(--color-primary); }
 
-/* 6. BACK TO TOP - ROMB (Cerința 5 - Conform Video) */
 #link-top {
     position: fixed;
     bottom: 30px;
@@ -97,17 +86,16 @@ tr:hover { box-shadow: inset 0 0 15px var(--color-primary); }
     align-items: center;
     justify-content: center;
     opacity: 0.5;
-    transition: all 0.5s ease-in-out; /* Durata cerută 300-700ms */
+    transition: all 0.5s ease-in-out;
     text-decoration: none;
     z-index: 999;
 }
 
 #link-top:hover {
     opacity: 1;
-    transform: rotate(360deg); /* Rotația din video */
+    transform: rotate(360deg);
 }
 
-/* Construcție Romb din CSS */
 .romb-container {
     position: relative;
     width: 0; height: 0;
@@ -125,7 +113,6 @@ tr:hover { box-shadow: inset 0 0 15px var(--color-primary); }
     border-top: 25px solid var(--color-romb);
 }
 
-/* Tooltip "Zboară sus!" */
 #link-top::after {
     content: "Inapoi sus";
     position: absolute;
@@ -141,12 +128,10 @@ tr:hover { box-shadow: inset 0 0 15px var(--color-primary); }
 
 #link-top:hover::after { opacity: 1; }
 
-/* 7. RESPONSIVITATE */
 @media (max-width: 800px) {
     main {
         grid-template-areas: "z1" "z2" "z3" "z4" "z5" "z6" "z7" "z8";
         grid-template-columns: 1fr;
     }
-    /* Dezactivare animații pe mobil */
     * { animation: none !important; transition: none !important; }
 }
