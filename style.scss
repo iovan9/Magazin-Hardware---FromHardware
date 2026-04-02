@@ -1,0 +1,255 @@
+/* Cerința 6 */
+$durata-tranzitie: 0.4s;
+$grosime-border: 2px;
+$font-principal: 'Segoe UI', sans-serif;
+
+body {
+  /* Variabile CSS dependente de tema declarate pe body */
+  --color-primary: #4FC7F7;
+  --color-bg: #0f172a;
+  --color-text: #81F9F5;
+  --color-border: #4F92F7;
+  --color-highlight: #4FF7B9;
+  --color-romb: #4FF77F;
+  --menu-bg: #1e293b;
+  --menu-hover: rgba(79, 199, 247, 0.2);
+
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: $font-principal;
+  padding: 20px;
+  font-size: clamp(14px, 1.2vw, 18px);
+  margin: 0;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+%stil-baza-link {
+  text-decoration: none;
+  color: var(--color-text);
+  display: block;
+  padding: 15px 20px;
+  font-weight: bold;
+  transition: background-color $durata-tranzitie;
+}
+
+%container-baza {
+  border: $grosime-border solid var(--color-border);
+  padding: 15px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+#meniu-principal {
+  position: relative;
+  background-color: var(--menu-bg);
+  border-radius: 8px;
+  z-index: 1000;
+  margin-bottom: 20px;
+
+  #hamburger-checkbox, #hamburger-label { display: none; }
+
+  .meniu {
+    list-style: none;
+    display: flex;
+    justify-content: space-around;
+    margin: 0; padding: 0;
+
+    @for $i from 1 through 5 {
+      > li:nth-child(#{$i}) {
+        animation-delay: #{$i * 0.1}s;
+      }
+    }
+
+    > li {
+      position: relative;
+      flex-grow: 1;
+      text-align: center;
+
+      > a {
+        @extend %stil-baza-link;
+        position: relative;
+        overflow: hidden;
+
+        &::after {
+          content: ''; position: absolute;
+          bottom: 0; left: 0; width: 100%; height: 5px;
+          background: linear-gradient(to right, black, white, black);
+          transform: translateY(-10px);
+          opacity: 0; transition: all $durata-tranzitie ease;
+        }
+
+        &:hover::after { transform: translateY(0); opacity: 1; }
+        i { margin-right: 8px; }
+      }
+
+      .submeniu {
+        list-style: none; padding: 0;
+        position: absolute; top: 100%; left: 0; width: 100%;
+        background: var(--menu-bg);
+        border: 1px solid var(--color-border);
+        transform: scale(0); transform-origin: center center;
+        transition: transform $durata-tranzitie ease;
+
+        li a {
+          @extend %stil-baza-link;
+          padding: 10px; font-size: 0.9em;
+          &:hover { background-color: var(--color-primary); color: var(--color-bg); }
+        }
+      }
+
+      &:hover .submeniu { transform: scale(1); }
+    }
+  }
+}
+
+@media (max-width: 1024px) and (min-width: 801px) {
+  #meniu-principal .meniu > li > a {
+    .text-meniu { display: none; }
+    i { font-size: 1.5rem; margin-right: 0; }
+  }
+}
+
+main {
+  display: grid; gap: 15px;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-areas:
+        "z1 z1 z1 z1"
+        "z2 z2 z8 z8"
+        "z3 z6 z8 z8"
+        "z5 z6 z8 z8"
+        "z5 z4 z4 z7";
+
+  > section, > article, > div {
+    @extend %container-baza;
+  }
+
+  #z1 { grid-area: z1; border-color: var(--color-highlight); }
+  #z2 { grid-area: z2; }
+  #z3 { grid-area: z3; }
+  #z4 { grid-area: z4; }
+  #z5 { grid-area: z5; }
+  #z6 { grid-area: z6; }
+  #z7 { grid-area: z7; }
+  #z8 { grid-area: z8; border-width: 3px; border-color: var(--color-primary); }
+}
+
+.flex-container-stats {
+  display: flex; flex-direction: column;
+  justify-content: space-around; gap: 15px; min-height: 200px;
+}
+
+.table-container { overflow-x: auto; border: 2px solid var(--color-primary) !important; }
+table {
+  width: 100%; border-collapse: collapse;
+  caption { caption-side: bottom; padding: 10px; color: var(--color-primary); }
+  td:nth-child(even) { border: 1px solid var(--color-primary); }
+  td:nth-child(odd) { border: 1px solid var(--color-border); }
+  thead { border-bottom: 3px solid var(--color-highlight); }
+  tfoot { border-top: 3px solid var(--color-highlight); }
+  tr {
+    transition: box-shadow 0.5s ease;
+    &:hover { box-shadow: inset 0 0 15px var(--color-primary); }
+  }
+}
+
+#link-top {
+  position: fixed; bottom: 30px; right: 30px;
+  width: 60px; height: 60px;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0.5; transition: all 0.5s ease-in-out;
+  text-decoration: none; z-index: 999;
+
+  &:hover { opacity: 1; transform: rotate(360deg); }
+
+  .romb-container {
+    position: relative; width: 0; height: 0;
+    border-left: 15px solid transparent; border-right: 15px solid transparent;
+    border-bottom: 25px solid var(--color-romb);
+
+    .triunghi-jos {
+      position: absolute; top: 25px; left: -15px;
+      width: 0; height: 0;
+      border-left: 15px solid transparent; border-right: 15px solid transparent;
+      border-top: 25px solid var(--color-romb);
+    }
+  }
+
+  &::after {
+    content: "Inapoi sus"; position: absolute; top: -40px;
+    background: var(--color-border); color: #fff;
+    padding: 5px 10px; border-radius: 4px; font-size: 12px;
+    opacity: 0; transition: 0.3s;
+  }
+
+  &:hover::after { opacity: 1; }
+}
+
+@media (max-width: 800px) {
+  #meniu-principal {
+    #hamburger-label { display: block; cursor: pointer; text-align: center; }
+    .meniu {
+      flex-direction: column; position: absolute; top: 100%; left: 0; width: 100%;
+      background: var(--menu-bg); clip-path: circle(0% at 0 0); transition: clip-path 0.6s ease-in-out;
+
+      > li > a {
+        text-align: left;
+        &::after { display: none; }
+        &:hover { background-color: var(--menu-hover); }
+      }
+
+      > li .submeniu {
+        position: static; transform: scaleY(0); transform-origin: top;
+        max-height: 0; overflow: hidden; border: none;
+      }
+
+      > li:hover .submeniu { transform: scaleY(1); max-height: 200px; }
+    }
+    #hamburger-checkbox:checked ~ .meniu { clip-path: circle(150% at 0 0); }
+  }
+
+  main {
+    grid-template-areas: "z1" "z2" "z3" "z4" "z5" "z6" "z7" "z8";
+    grid-template-columns: 1fr;
+  }
+  * { animation: none !important; transition: none !important; }
+}
+
+/* Cerința 7 */
+#banner-scolar, #watermark { display: none; }
+
+@media print {
+  @page :left { margin: 2cm 1cm 2cm 2cm; }
+  @page :right { margin: 2cm 2cm 2cm 1cm; }
+
+  body { background: white !important; color: black !important; padding: 0; }
+
+  img, video, iframe, object, picture, figure, #link-top, .video-links { display: none !important; }
+
+  #banner-scolar {
+    display: block; position: absolute; top: 0; right: 0;
+    width: 50%; border: 3px double black; padding: 5px;
+    text-align: center; font-weight: bold;
+  }
+
+  main { display: block !important; }
+  main > * { border: none !important; margin-bottom: 20px; }
+
+  a { color: black !important; text-decoration: none !important; }
+
+  header { text-align: center; }
+
+  #meniu-principal {
+    .meniu { display: block; text-align: left; }
+    .submeniu { position: static; transform: none; display: block; padding-left: 20px; border: none; }
+  }
+
+  nav { page-break-after: always; }
+  footer { page-break-before: always; }
+
+  #watermark {
+    display: block; position: fixed; top: 45%; left: 20%;
+    width: 60%; height: 10%; text-align: center;
+    font-size: 3rem; font-weight: bold; color: rgba(0, 0, 0, 0.3); z-index: -1;
+  }
+}
