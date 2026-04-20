@@ -1,0 +1,16 @@
+{
+  "name": "magazin-hardware---fromhardware-main",
+  "version": "1.0.0",
+  "description": "1: Culorile reci (albastru/cyan) sugereaza tehnologie, \r     potrivindu-se profilului de magazin hardware.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^5.0.2",
+    "express": "^4.22.1"
+  }
+}
