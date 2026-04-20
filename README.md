@@ -1,4 +1,6 @@
 # Magazin-Hardware---FromHardware
 
-Etapa 2:
-Ex1: Am ales aceste culori pentru ca sustin ca se potrivesc cu ideea de tehnologie/automatizare.
+## Etapa 2:
+
+    1: Culorile reci (albastru/cyan) sugereaza tehnologie, 
+    potrivindu-se profilului de magazin hardware. 

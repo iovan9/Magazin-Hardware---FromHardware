@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <%- include('../fragmente/head') %>
+</head>
+<body id="top">
+
+<%- include('../fragmente/header') %>
+
+<main>
+    <article id="z1">
+        <h2>Oferte curente</h2>
+        <section>
+            <h3>Procesoare si Memorie</h3>
+            <p>Avem cele mai bune <b>procesoare</b> si <b>memorie RAM</b> pentru sistemul tau. <strong>Stocul se epuizeaza rapid, comanda acum!</strong></p>
+            <figure>
+                <picture>
+                    <source srcset="/resurse/imagini/ryzen-mic.jpg" media="(max-width:700px)"/>
+                    <source srcset="/resurse/imagini/ryzen-mediu.jpg" media="(max-width:1200px)"/>
+                    <img src="/resurse/imagini/ryzen-mediu.jpg" alt="Procesor Ryzen 7" title="AMD Ryzen 7 7800X3D la reducere" />
+                </picture>
+                <figcaption>Procesor AMD Ryzen 7 7800X3D (Versiunea Box)</figcaption>
+            </figure>
+        </section>
+    </article>
+
+    <section id="z2">
+        <h2>Program Evenimente si Lansari</h2>
+        <ul>
+            <li><time datetime="2026-03-20T10:00">20 Martie, ora 10:00</time> - <b>Lansare RTX 5090</b></li>
+            <li><time datetime="2026-04-05T14:00">5 Aprilie, ora 14:00</time> - <b>Lichidare stoc RAM</b></li>
+        </ul>
+    </section>
+
+    <section id="z3">
+        <h3>Statistici Magazin</h3>
+        <div class="flex-container-stats">
+            <p>Disponibilitate procesoare Intel: <meter value="15" min="0" max="100" low="20" high="80" optimum="90">15%</meter></p>
+            <p>Satisfactia clientilor: <meter value="98" min="0" max="100" low="40" high="80" optimum="100">98%</meter></p>
+            <blockquote>Alegerea unei surse de alimentare stabile este cel mai important pas.</blockquote>
+            <details>
+                <summary>Detalii Suplimentare Stoc</summary>
+                <p>Verificam disponibilitatea componentelor zilnic.</p>
+            </details>
+        </div>
+    </section>
+
+    <section id="z4">
+        <h2>Informatii si Detalii</h2>
+        <h3>Calculul puterii necesare (Sursa)</h3>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <mrow><mi>P</mi><mo>=</mo><mi>U</mi><mo>×</mo><mi>I</mi></mrow>
+        </math>
+        <h3>Catalog oferte (PDF)</h3>
+        <object data="/resurse/documente/Oferte.pdf" type="application/pdf" width="100%" height="400px">
+            <p><a href="/resurse/documente/Oferte.pdf" download>Descarca Catalog</a></p>
+        </object>
+    </section>
+
+    <section id="z5">
+        <h3>Tutoriale recomandate</h3>
+        <div class="video-links">
+            <a href="https://www.youtube.com/embed/gcy-Q99gvw8" target="player_video">Ghid piese</a> |
+            <a href="https://www.youtube.com/embed/s1fxZ-VWs2U" target="player_video">Asamblare</a> |
+            <a href="https://www.youtube.com/embed/AkNEvIWp2fM" target="player_video">Test stres</a>
+        </div>
+        <br>
+        <iframe name="player_video" src="https://www.youtube.com/embed/s1fxZ-VWs2U" width="100%" height="250" title="Tutorial"></iframe>
+
+        <h3>Prezentare FromHardware (Video Nativ)</h3>
+        <video poster="/resurse/imagini/poster-video.jpg" controls preload="metadata" class="video-custom">
+            <source src="/resurse/video/prezentare.mp4" type="video/mp4">
+            <source src="/resurse/video/prezentare.webm" type="video/webm">
+
+            <track kind="captions" src="/resurse/video/ro.vtt" srclang="ro" label="Română" default>
+            <track kind="captions" src="/resurse/video/en.vtt" srclang="en" label="English">
+
+            Browserul tău nu suportă elementul video.
+        </video>
+
+        <h3>Playlist Video</h3>
+        <iframe width="100%" height="250" src="https://www.youtube.com/embed/videoseries?list=PLm-djqjo5wQJM0hPdYJirLNuFZTZMIqhU&autoplay=1&loop=1&controls=1" title="Playlist" allowfullscreen></iframe>
+    </section>
+
+    <div id="z6" class="table-container">
+        <table>
+            <caption>Comparatie componente High-End</caption>
+            <thead>
+            <tr><th>Componenta</th><th>Model</th><th>Stoc</th><th>Pret (RON)</th></tr>
+            </thead>
+            <tbody>
+            <tr><td rowspan="2">Procesor</td><td>Intel Core i9</td><td>Limitat</td><td>2900</td></tr>
+            <tr><td>AMD Ryzen 9</td><td>Disponibil</td><td>3100</td></tr>
+            <tr><td>Placa Video</td><td colspan="2">NVIDIA GeForce RTX 4090</td><td>9500</td></tr>
+            <tr><td>Memorie RAM</td><td colspan="2">Corsair Vengeance DDR5</td><td>1000</td></tr>
+            </tbody>
+            <tfoot>
+            <tr><td colspan="3">Total estimat:</td><td>16500</td></tr>
+            </tfoot>
+        </table>
+    </div>
+
+    <section id="z7">
+        <h3>Harta interactiva</h3>
+        <img src="/resurse/imagini/b450.jpg" alt="Placa de baza" usemap="#mapa-hardware" width="250" height="250" />
+        <map name="mapa-hardware">
+            <area shape="rect" coords="110,65,175,135" href="#z1" alt="Procesoare">
+            <area shape="rect" coords="190,15,250,165" href="#z8" alt="RAM">
+        </map>
+        <p><a href="https://hotnews.ro/" target="_blank">Articol prețuri RAM</a></p>
+    </section>
+
+    <article id="z8">
+        <h2>Memorie RAM Corsair</h2>
+        <figure id="oferta-ram">
+            <picture>
+                <source srcset="/resurse/imagini/ramddr5-mic.jpg" media="(max-width:700px)"/>
+                <img src="/resurse/imagini/ramddr5-mediu.jpg" alt="RAM Corsair" />
+            </picture>
+            <figcaption>DDR5 Corsair Vengeance Pro</figcaption>
+        </figure>
+    </article>
+</main>
+
+<%- include('../fragmente/footer') %>
+
+</body>
+</html>
