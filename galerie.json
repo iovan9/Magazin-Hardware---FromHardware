@@ -1,0 +1,16 @@
+
+{
+  "cale_galerie": "/resurse/imagini/galerie/",
+  "imagini": [
+    {"cale_imagine": "1.jpg", "titlu": "PC1", "descriere": "PC1", "timp": "00:00-13:34"},
+    {"cale_imagine": "2.jpg", "titlu": "PC2", "descriere": "PC2", "timp": "13:00-15:55"},
+    {"cale_imagine": "3.jpg", "titlu": "PC3", "descriere": "PC3", "timp": "15:00-16:00"},
+    {"cale_imagine": "4.jpg", "titlu": "PC4", "descriere": "PC4", "timp": "15:00-16:30"},
+    {"cale_imagine": "5.jpg", "titlu": "PC5", "descriere": "PC5", "timp": "16:20-18:00"},
+    {"cale_imagine": "6.jpg", "titlu": "PC6", "descriere": "PC6", "timp": "14:00-18:00"},
+    {"cale_imagine": "7.jpg", "titlu": "PC7", "descriere": "PC7", "timp": "17:00-23:59"},
+    {"cale_imagine": "8.jpg", "titlu": "PC8", "descriere": "PC8", "timp": "19:00-23:59"},
+    {"cale_imagine": "9.jpg", "titlu": "PC9", "descriere": "PC9", "timp": "00:00-14:00"},
+    {"cale_imagine": "10.jpg", "titlu": "PC10", "descriere": "PC10", "timp": "12:00-23:59"}
+  ]
+}
