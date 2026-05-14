@@ -1,0 +1,15 @@
+<div class="galerie-statica">
+    <% if (locals.imaginiGalerie && locals.imaginiGalerie.length > 0) { %>
+        <% locals.imaginiGalerie.forEach(function(img) { %>
+            <figure>
+                <picture>
+                    <source srcset="<%= img.cale_relativa_mica %>" media="(max-width: 43.75rem)" />
+                    <img src="<%= img.cale_relativa_mare %>" alt="<%= img.descriere %>" title="<%= img.titlu %>" />
+                </picture>
+                <figcaption><%= img.descriere %></figcaption>
+            </figure>
+        <% }); %>
+    <% } else { %>
+        <p>Nu există imagini disponibile în acest interval orar.</p>
+    <% } %>
+</div>

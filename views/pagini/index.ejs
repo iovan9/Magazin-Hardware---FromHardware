@@ -8,15 +8,20 @@
 <%- include('../fragmente/header') %>
 
 <main>
+    <div class="alert alert-primary mt-4" role="alert">
+        <strong>Verificare Bootstrap!</strong> Acest mesaj folosește schema noastră cromatică.
+        <a href="/#z1" class="btn btn-secondary ms-3">Spre oferte</a>
+    </div>
+
     <article id="z1">
-        <h2>Oferte curente</h2>
+        <h2><i class="fa-solid fa-bolt" style="font-family: 'Font Awesome 6 Free' !important; font-weight: 900 !important; font-style: normal !important; color: var(--color-highlight);"></i> Oferte curente</h2>
         <section>
             <h3>Procesoare si Memorie</h3>
             <p>Avem cele mai bune <b>procesoare</b> si <b>memorie RAM</b> pentru sistemul tau. <strong>Stocul se epuizeaza rapid, comanda acum!</strong></p>
             <figure>
                 <picture>
-                    <source srcset="/resurse/imagini/ryzen-mic.jpg" media="(max-width:700px)"/>
-                    <source srcset="/resurse/imagini/ryzen-mediu.jpg" media="(max-width:1200px)"/>
+                    <source srcset="/resurse/imagini/ryzen-mic.jpg" media="(max-width: 43.75rem)"/>
+                    <source srcset="/resurse/imagini/ryzen-mediu.jpg" media="(max-width: 75rem)"/>
                     <img src="/resurse/imagini/ryzen-mediu.jpg" alt="Procesor Ryzen 7" title="AMD Ryzen 7 7800X3D la reducere" />
                 </picture>
                 <figcaption>Procesor AMD Ryzen 7 7800X3D (Versiunea Box)</figcaption>
@@ -51,21 +56,28 @@
         <math xmlns="http://www.w3.org/1998/Math/MathML">
             <mrow><mi>P</mi><mo>=</mo><mi>U</mi><mo>×</mo><mi>I</mi></mrow>
         </math>
+
+        <hr class="stil-hr">
+
         <h3>Catalog oferte (PDF)</h3>
         <object data="/resurse/documente/Oferte.pdf" type="application/pdf" width="100%" height="400px">
             <p><a href="/resurse/documente/Oferte.pdf" download>Descarca Catalog</a></p>
         </object>
     </section>
 
+
     <section id="z5">
         <h3>Tutoriale recomandate</h3>
-        <div class="video-links">
-            <a href="https://www.youtube.com/embed/gcy-Q99gvw8" target="player_video">Ghid piese</a> |
-            <a href="https://www.youtube.com/embed/s1fxZ-VWs2U" target="player_video">Asamblare</a> |
-            <a href="https://www.youtube.com/embed/AkNEvIWp2fM" target="player_video">Test stres</a>
+
+        <div class="video-tab-container">
+            <iframe name="player_video" src="https://www.youtube.com/embed/s1fxZ-VWs2U" width="100%" height="250" title="Tutorial"></iframe>
+
+            <div class="video-links">
+                <a href="https://www.youtube.com/embed/gcy-Q99gvw8" target="player_video">Ghid piese</a>
+                <a href="https://www.youtube.com/embed/s1fxZ-VWs2U" target="player_video">Asamblare</a>
+                <a href="https://www.youtube.com/embed/AkNEvIWp2fM" target="player_video">Test stres</a>
+            </div>
         </div>
-        <br>
-        <iframe name="player_video" src="https://www.youtube.com/embed/s1fxZ-VWs2U" width="100%" height="250" title="Tutorial"></iframe>
 
         <h3>Prezentare FromHardware (Video Nativ)</h3>
         <video poster="/resurse/imagini/poster-video.jpg" controls preload="metadata" class="video-custom">
@@ -114,7 +126,7 @@
         <h2>Memorie RAM Corsair</h2>
         <figure id="oferta-ram">
             <picture>
-                <source srcset="/resurse/imagini/ramddr5-mic.jpg" media="(max-width:700px)"/>
+                <source srcset="/resurse/imagini/ramddr5-mic.jpg" media="(max-width: 43.75rem)"/>
                 <img src="/resurse/imagini/ramddr5-mediu.jpg" alt="RAM Corsair" />
             </picture>
             <figcaption>DDR5 Corsair Vengeance Pro</figcaption>

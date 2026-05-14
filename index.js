@@ -21,7 +21,77 @@ for (let folder of vect_foldere) {
     }
 }
 
-let obGlobal = { obErori: null };
+const sass = require('sass');
+
+let obGlobal = {
+    obErori: null,
+    folderScss: path.join(__dirname, 'resurse', 'css'),
+    folderCss: path.join(__dirname, 'resurse', 'css')
+};
+
+// 2. Funcția de compilare SCSS
+function compileazaScss(caleScss, caleCss) {
+    // Calculăm căile absolute
+    let absoluteScss = path.isAbsolute(caleScss) ? caleScss : path.join(obGlobal.folderScss, caleScss);
+    let absoluteCss;
+
+    if (!caleCss) {
+        // Dacă lipsește, luăm numele scss-ului și îi punem extensia .css
+        let parsedPath = path.parse(absoluteScss);
+        absoluteCss = path.join(obGlobal.folderCss, parsedPath.name + '.css');
+    } else {
+        absoluteCss = path.isAbsolute(caleCss) ? caleCss : path.join(obGlobal.folderCss, caleCss);
+    }
+
+    let backupFolder = path.join(__dirname, 'backup', 'resurse', 'css');
+    if (!fs.existsSync(backupFolder)) {
+        fs.mkdirSync(backupFolder, { recursive: true }); // Creăm folderele dacă nu există
+    }
+
+    if (fs.existsSync(absoluteCss)) {
+        try {
+            let parsedCssPath = path.parse(absoluteCss);
+            // Adăugăm un timestamp în nume ca să nu suprascriem mereu același backup
+            let timestamp = new Date().getTime();
+            let backupFile = path.join(backupFolder, `${parsedCssPath.name}_${timestamp}.css`);
+
+            fs.copyFileSync(absoluteCss, backupFile);
+        } catch (err) {
+            console.error("Eroare la copierea în backup:", err);
+        }
+    }
+
+    try {
+        let rezultat = sass.compile(absoluteScss);
+        fs.writeFileSync(absoluteCss, rezultat.css);
+        console.log(`[SCSS] Compilat cu succes: ${path.basename(absoluteCss)}`);
+    } catch (err) {
+        console.error("[SCSS] Eroare la compilare:", err.message);
+    }
+}
+
+try {
+    let fisiere = fs.readdirSync(obGlobal.folderScss);
+    for (let fis of fisiere) {
+        if (path.extname(fis) === '.scss') {
+            compileazaScss(fis);
+        }
+    }
+} catch (err) {
+    console.error("Eroare la citirea folderului SCSS pentru compilarea inițială:", err);
+}
+
+fs.watch(obGlobal.folderScss, (event, filename) => {
+    if (filename && path.extname(filename) === '.scss') {
+        let absoluteScss = path.join(obGlobal.folderScss, filename);
+        // Verificăm dacă fișierul încă există (ca să nu dea eroare dacă l-am șters)
+        if (fs.existsSync(absoluteScss)) {
+            console.log(`\n[Watch] Modificare detectată la ${filename}...`);
+            compileazaScss(filename);
+        }
+    }
+});
+
 
 function initErori() {
     try {
@@ -134,6 +204,65 @@ function afisareEroare(res, identificator, titlu, text, imagine) {
     res.render('pagini/eroare', dateEroare);
 }
 
+const sharp = require('sharp');
+
+// Funcție pentru parsarea galeriei și generarea imaginilor mici
+async function pregatesteGalerie() {
+    let dateGalerie = [];
+    try {
+        let jsonGalerie = fs.readFileSync(path.join(__dirname, 'galerie.json'), 'utf8');
+        let obGalerie = JSON.parse(jsonGalerie);
+
+        let oraCurenta = new Date();
+        let oraStr = oraCurenta.getHours().toString().padStart(2, '0') + ":" +
+            oraCurenta.getMinutes().toString().padStart(2, '0');
+
+        let imaginiFiltrate = obGalerie.imagini.filter(img => {
+            let intervale = img.timp.split(',');
+            for (let int of intervale) {
+                let [start, end] = int.split('-');
+                if (oraStr >= start.trim() && oraStr <= end.trim()) return true;
+            }
+            return false;
+        });
+
+        // Trunchiem la maxim 10 imagini
+        imaginiFiltrate = imaginiFiltrate.slice(0, 10);
+
+        // Procesăm cu Sharp
+        let folderGalerie = path.join(__dirname, obGalerie.cale_galerie);
+
+        for (let img of imaginiFiltrate) {
+            let caleMare = path.join(folderGalerie, img.cale_imagine);
+            let numeMic = 'mic-' + img.cale_imagine;
+            let caleMica = path.join(folderGalerie, numeMic);
+
+            // Verificăm dacă imaginea originală există pentru a evita erorile
+            if (fs.existsSync(caleMare)) {
+                // Dacă nu există varianta mică, o generăm (lățime 300px)
+                if (!fs.existsSync(caleMica)) {
+                    await sharp(caleMare).resize(300).toFile(caleMica);
+                }
+
+                // Salvăm căile pentru EJS
+                dateGalerie.push({
+                    ...img,
+                    cale_relativa_mare: path.join(obGalerie.cale_galerie, img.cale_imagine).replace(/\\/g, '/'),
+                    cale_relativa_mica: path.join(obGalerie.cale_galerie, numeMic).replace(/\\/g, '/')
+                });
+            }
+        }
+    } catch (err) {
+        console.error("Eroare la procesarea galeriei:", err);
+    }
+    return dateGalerie;
+}
+
+// Middleware pentru a injecta galeria în orice request (cerința zice "când cere pagina")
+app.use(async (req, res, next) => {
+    res.locals.imaginiGalerie = await pregatesteGalerie();
+    next();
+});
 
 app.use('/resurse', express.static(path.join(__dirname, 'resurse')));
 
