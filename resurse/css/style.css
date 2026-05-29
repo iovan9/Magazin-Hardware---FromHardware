@@ -1,4 +1,3 @@
-@charset "UTF-8";
 body {
   --color-primary: #4FC7F7;
   --color-bg: #0f172a;
@@ -15,6 +14,18 @@ body {
   font-size: clamp(0.875rem, 1.2vw, 1.125rem);
   margin: 0;
 }
+
+body.light-theme {
+    --color-primary: #0056b3;
+    --color-bg: #ffffff;
+    --color-text: #212529;
+    --color-border: #adb5bd;
+    --color-highlight: #d63384;
+    --color-romb: #0056b3;
+    --menu-bg: #f8f9fa;
+    --menu-hover: rgba(0, 86, 179, 0.1);
+}
+/* Pune și regulile pt butoane de mai devreme dacă vrei */
 
 * {
   box-sizing: border-box;
@@ -49,8 +60,25 @@ h1, h2, h3 {
   z-index: 1000;
   margin-bottom: 1.25rem;
 }
-#meniu-principal #hamburger-checkbox, #meniu-principal #hamburger-label {
+#meniu-principal #hamburger-checkbox {
   display: none;
+}
+#meniu-principal #hamburger-label {
+  display: none;
+  position: relative;
+  width: 30px;
+  height: 24px;
+  cursor: pointer;
+  margin: 0 auto 10px auto;
+}
+#meniu-principal #hamburger-label .bara-hamburger {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background-color: var(--color-primary);
+  border-radius: 2px;
+  opacity: 0;
 }
 #meniu-principal .meniu {
   list-style: none;
@@ -291,16 +319,18 @@ math {
 }
 
 hr.stil-hr {
-  opacity: 1; /* Asta e linia magică ce readuce lumina! */
+  opacity: 1;
   border: none;
   height: 0.9375rem;
   width: 80%;
   margin: 3.75rem auto;
   border-radius: 3.125rem;
-  background-color: var(--color-border);
-  box-shadow: 0 0 0.9375rem var(--color-border);
-  background-image: repeating-radial-gradient(circle closest-side, #ffffff 0%, #ffffff 30%, transparent 40%, transparent 100%);
-  background-size: 0.9375rem 0.9375rem;
+  background-color: color-mix(in srgb, var(--color-border) 35%, transparent);
+  box-shadow: 0 0 0.9375rem color-mix(in srgb, var(--color-border) 35%, transparent);
+  background-image: radial-gradient(circle, var(--color-bg) 30%, transparent 35%);
+  background-size: 1rem 2.1rem; /* Dimensiunea unui singur "patratel" */
+  background-repeat: repeat-x; /* Il repetam pe toata linia pe orizontala */
+  background-position: center;
   position: relative;
   overflow: visible;
 }
@@ -425,8 +455,21 @@ hr.stil-hr::after {
 @media (max-width: 50rem) {
   #meniu-principal #hamburger-label {
     display: block;
-    cursor: pointer;
-    text-align: center;
+  }
+  #meniu-principal #hamburger-label .bara-hamburger {
+    animation: aparitie-bara 0.6s forwards;
+  }
+  #meniu-principal #hamburger-label .bara-hamburger:nth-child(1) {
+    top: 0px;
+    animation-delay: 0.3s;
+  }
+  #meniu-principal #hamburger-label .bara-hamburger:nth-child(2) {
+    top: 10px;
+    animation-delay: 0.6s;
+  }
+  #meniu-principal #hamburger-label .bara-hamburger:nth-child(3) {
+    top: 20px;
+    animation-delay: 0.9s;
   }
   #meniu-principal .meniu {
     flex-direction: column;
@@ -449,15 +492,15 @@ hr.stil-hr::after {
   }
   #meniu-principal .meniu > li .submeniu {
     position: static;
-    transform: scaleY(0);
-    transform-origin: top;
+    clip-path: circle(0% at 0 0);
+    transition: clip-path 0.6s ease-in-out;
     max-height: 0;
     overflow: hidden;
     border: none;
   }
   #meniu-principal .meniu > li:hover .submeniu {
-    transform: scaleY(1);
-    max-height: 12.5rem;
+    clip-path: circle(150% at 0 0);
+    max-height: 15.625rem;
   }
   #meniu-principal #hamburger-checkbox:checked ~ .meniu {
     clip-path: circle(150% at 0 0);
@@ -465,10 +508,6 @@ hr.stil-hr::after {
   main {
     grid-template-areas: "z1" "z2" "z3" "z4" "z5" "z6" "z7" "z8";
     grid-template-columns: 1fr;
-  }
-  * {
-    animation: none !important;
-    transition: none !important;
   }
 }
 #banner-scolar, #watermark {
@@ -554,7 +593,7 @@ hr.stil-hr::after {
     font-size: 3rem;
     font-weight: bold;
     color: rgba(0, 0, 0, 0.3);
-    z-index: -1;
+    z-index: 9999;
   }
 }
 .galerie-statica {
@@ -629,4 +668,21 @@ hr.stil-hr::after {
   .galerie-statica figure:nth-child(6) {
     grid-column-start: auto;
   }
-}z
+}
+@keyframes aparitie-bara {
+  0% {
+    opacity: 0;
+    background-color: #ff0000;
+    transform: translateX(-20px) scale(0.5);
+  }
+  50% {
+    opacity: 0.5;
+    background-color: #ffff00;
+    transform: translateX(10px) scale(1.2);
+  }
+  100% {
+    opacity: 1;
+    background-color: var(--color-highlight);
+    transform: translateX(0) scale(1);
+  }
+}

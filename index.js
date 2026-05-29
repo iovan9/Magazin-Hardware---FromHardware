@@ -1,6 +1,16 @@
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
+const { Pool } = require('pg');
+
+// Cream conexiunea la baza de date
+const pool = new Pool({
+    user: 'user_magazin',
+    host: 'localhost',
+    database: 'FromHardware',
+    password: 'ParolaMagazin123',
+    port: 5432,
+});
 
 const app = express();
 const PORT = 8080;
@@ -257,6 +267,46 @@ async function pregatesteGalerie() {
     }
     return dateGalerie;
 }
+
+// Functie care ruleaza o singura data la pornirea serverului
+async function initCategorii() {
+    try {
+        // Scoatem categoriile unice din tabel
+        const rezultat = await pool.query("SELECT DISTINCT categorie FROM produse");
+
+        // Le salvam global in app.locals ca sa le "vada" header.ejs
+        // Transformam randurile din DB intr-un simplu vector de string-uri
+        app.locals.categorii = rezultat.rows.map(rand => rand.categorie);
+
+        console.log("Categorii incarcate din DB:", app.locals.categorii);
+    } catch (err) {
+        console.error("Eroare la extragerea categoriilor:", err);
+    }
+}
+initCategorii(); // Apelam functia imediat
+
+app.get('/produse', async (req, res) => {
+    let categorieCeruta = req.query.categorie; // Ce a dat click utilizatorul in meniu
+
+    // Default: cerem toate produsele
+    let querySQL = "SELECT * FROM produse";
+    let valoriQuery = [];
+
+    // Daca a selectat o categorie specifica (si nu e 'toate')
+    if (categorieCeruta && categorieCeruta !== 'toate') {
+        querySQL += " WHERE categorie = $1"; // $1 e o masura de securitate anti-hack
+        valoriQuery.push(categorieCeruta);
+    }
+
+    try {
+        const rezultat = await pool.query(querySQL, valoriQuery);
+        // Trimitem datele catre viitorul fisier produse.ejs
+        res.render('pagini/produse', { produse: rezultat.rows });
+    } catch (err) {
+        console.error("Eroare la extragerea produselor:", err);
+        res.status(500).send("Eroare interna a serverului");
+    }
+});
 
 // Middleware pentru a injecta galeria în orice request (cerința zice "când cere pagina")
 app.use(async (req, res, next) => {

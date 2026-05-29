@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <%- include('../fragmente/head') %>
+    <title>Produse - FromHardware</title>
+</head>
+<body id="top">
+
+<%- include('../fragmente/header') %>
+
+<main>
+    <h1 class="titlu-pagina">Catalog Componente</h1>
+
+    <section id="zona-filtre" class="container border rounded p-4 mb-5 shadow-sm" style="background: var(--menu-bg);">
+        <h3 class="mb-4" style="color: var(--color-primary);">Filtrează Produsele</h3>
+
+        <div class="row g-3">
+            <div class="col-12 col-md-4">
+                <label class="form-label">Nume produs:</label>
+                <input type="text" class="form-control" id="i_nume" placeholder="Ex: AMD">
+            </div>
+
+            <div class="col-12 col-md-4">
+                <label class="form-label d-flex justify-content-between">
+                    <span>Preț maxim:</span>
+                    <strong id="val_curent" style="color: var(--color-highlight);">10000</strong>
+                </label>
+                <input type="range" class="form-range" id="i_pret" min="0" max="10000" step="100" value="10000">
+            </div>
+
+            <div class="col-12 col-md-4">
+                <label class="form-label">Culoare:</label>
+                <input class="form-control" list="lista-culori" id="i_culoare" placeholder="Scrie o culoare">
+                <datalist id="lista-culori">
+                    <option value="Alb"><option value="Negru"><option value="Argintiu">
+                </datalist>
+            </div>
+
+            <div class="col-12 col-md-6">
+                <label class="form-label d-block">Iluminare RGB:</label>
+                <div class="btn-group w-100" role="group">
+                    <input type="radio" class="btn-check" name="rad_rgb" id="rgb_toate" value="toate" checked>
+                    <label class="btn btn-outline-primary" for="rgb_toate">Oricare</label>
+
+                    <input type="radio" class="btn-check" name="rad_rgb" id="rgb_are" value="1">
+                    <label class="btn btn-outline-success" for="rgb_are">Are RGB</label>
+
+                    <input type="radio" class="btn-check" name="rad_rgb" id="rgb_nu" value="0">
+                    <label class="btn btn-outline-danger" for="rgb_nu">Fără RGB</label>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6">
+                <label class="form-label">Subcategorie:</label>
+                <select class="form-select" id="i_subcat">
+                    <option value="toate" selected>Oricare</option>
+                    <option value="AM5">AM5</option>
+                    <option value="LGA1700">LGA1700</option>
+                    <option value="PCIe 4.0">PCIe 4.0</option>
+                    <option value="DDR5">DDR5</option>
+                    <option value="ATX">ATX</option>
+                </select>
+            </div>
+
+            <div class="col-12">
+                <div class="form-floating">
+                    <textarea class="form-control" id="i_descriere" placeholder="Introdu un cuvânt" style="height: 80px"></textarea>
+                    <label for="i_descriere">Cuvânt în descriere (min 3 caractere pt validare)</label>
+                </div>
+            </div>
+        </div>
+
+        <hr class="my-4" style="border-color: var(--color-border);">
+
+        <div class="d-flex flex-wrap gap-2">
+            <button id="btn_filtrare" class="btn btn-primary">
+                <i class="bi bi-funnel-fill"></i> <span class="d-none d-md-inline">Filtrează</span>
+            </button>
+            <button id="btn_sort_asc" class="btn btn-secondary">
+                <i class="bi bi-sort-numeric-down"></i> <span class="d-none d-md-inline">Sort Crescător</span>
+            </button>
+            <button id="btn_sort_desc" class="btn btn-secondary">
+                <i class="bi bi-sort-numeric-up-alt"></i> <span class="d-none d-md-inline">Sort Descrescător</span>
+            </button>
+            <button id="btn_calc" class="btn btn-success">
+                <i class="bi bi-calculator"></i> <span class="d-none d-md-inline">Calculează Preț</span>
+            </button>
+            <button id="btn_reset" class="btn btn-danger">
+                <i class="bi bi-trash-fill"></i> <span class="d-none d-md-inline">Resetează</span>
+            </button>
+        </div>
+    </section>
+
+    <div class="grid-produse">
+        <%
+        // Array-uri pentru formatarea datei in romana
+        const luni = ['Ianuarie', 'Februarie', 'Martie', 'Aprilie', 'Mai', 'Iunie', 'Iulie', 'August', 'Septembrie', 'Octombrie', 'Noiembrie', 'Decembrie'];
+        const zile = ['Duminica', 'Luni', 'Marti', 'Miercuri', 'Joi', 'Vineri', 'Sambata'];
+
+                for(let prod of produse) {
+            // Formatam data: "15 Septembrie 2018 [Sambata]"
+            let d = new Date(prod.data_adaugare);
+            let dataFormatata = d.getDate() + ' ' + luni[d.getMonth()] + ' ' + d.getFullYear() + ' [' + zile[d.getDay()] + ']';
+            let dataISO = d.toISOString().split('T')[0];
+        %>
+
+        <article id="artc-<%= prod.id %>" class="produs <%= prod.categorie %>"
+                 data-pret="<%= prod.pret %>"
+                 data-putere="<%= prod.putere_w %>"
+                 data-nume="<%= prod.nume %>"
+                 data-subcat="<%= prod.subcategorie %>"
+                 data-culoare="<%= prod.culoare %>"
+                 data-rgb="<%= prod.iluminare_rgb ? '1' : '0' %>"
+                 data-porturi="<%= prod.porturi %>">
+            <h2><a href="/produs/<%= prod.id %>"><%= prod.nume %></a></h2>
+
+            <div class="produs-coloane">
+                <div class="coloana-stanga">
+                    <figure>
+                        <img src="<%= prod.imagine %>" alt="<%= prod.nume %>" class="img-produs">
+                    </figure>
+
+                    <ul class="lista-caracteristici">
+                        <li><span class="eticheta">Preț:</span> <%= prod.pret %> RON</li>
+                        <li><span class="eticheta">Consum (Putere):</span> <%= prod.putere_w %> W</li>
+                        <li><span class="eticheta">Culoare:</span> <%= prod.culoare %></li>
+                        <li><span class="eticheta">Porturi:</span> <%= prod.porturi %></li>
+                        <li><span class="eticheta">Iluminare RGB:</span> <%= prod.iluminare_rgb ? 'Da' : 'Nu' %></li>
+                        <li><span class="eticheta">Data adăugare:</span> <time datetime="<%= dataISO %>"><%= dataFormatata %></time></li>
+                    </ul>
+                </div>
+
+                <div class="coloana-dreapta">
+                    <p class="categorie-afisata">Categoria: <b><%= prod.categorie.replace(/_/g, ' ') %></b></p>
+                    <p class="subcategorie">Subcategorie: <%= prod.subcategorie %></p>
+                    <div class="descriere-produs">
+                        <p><%= prod.descriere %></p>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <% } %>
+    </div>
+</main>
+
+<%- include('../fragmente/footer') %>
+
+<script src="/resurse/js/tema.js"></script>
+<script src="/resurse/js/filtre.js"></script>
+
+</body>
+</html>
