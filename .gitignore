@@ -1,5 +1,7 @@
 node_modules/
+.idea/
+backup/
 temp/
 logs/
-backup/
 fisiere_uploadate/
+oferte.json
