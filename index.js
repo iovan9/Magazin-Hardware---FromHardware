@@ -268,22 +268,83 @@ async function pregatesteGalerie() {
     return dateGalerie;
 }
 
-// Functie care ruleaza o singura data la pornirea serverului
-async function initCategorii() {
+// --- GENERARE DATE DINAMICE (BONUS 1) ---
+async function initDateGlobale() {
     try {
-        // Scoatem categoriile unice din tabel
-        const rezultat = await pool.query("SELECT DISTINCT categorie FROM produse");
+        const rezCat = await pool.query("SELECT DISTINCT categorie FROM produse");
+        app.locals.categorii = rezCat.rows.map(rand => rand.categorie);
 
-        // Le salvam global in app.locals ca sa le "vada" header.ejs
-        // Transformam randurile din DB intr-un simplu vector de string-uri
-        app.locals.categorii = rezultat.rows.map(rand => rand.categorie);
+        const rezPret = await pool.query("SELECT MIN(pret) as min, MAX(pret) as max FROM produse");
+        app.locals.pretMin = rezPret.rows[0].min;
+        app.locals.pretMax = rezPret.rows[0].max;
 
-        console.log("Categorii incarcate din DB:", app.locals.categorii);
+        const rezCulori = await pool.query("SELECT DISTINCT culoare FROM produse");
+        app.locals.culori = rezCulori.rows.map(rand => rand.culoare);
+
+        // EXTRA PENTRU A AJUNGE LA 0.5 PUNCTE:
+        const rezSubcat = await pool.query("SELECT DISTINCT subcategorie FROM produse");
+        app.locals.subcategorii = rezSubcat.rows.map(rand => rand.subcategorie);
+
+        const rezLungimi = await pool.query("SELECT MAX(LENGTH(nume)) as max_nume, MAX(LENGTH(descriere)) as max_desc FROM produse");
+        app.locals.numeMaxLen = rezLungimi.rows[0].max_nume;
+        app.locals.descMaxLen = rezLungimi.rows[0].max_desc;
+
+        const rezExemplu = await pool.query("SELECT nume FROM produse LIMIT 1");
+        app.locals.numeExemplu = rezExemplu.rows.length > 0 ? rezExemplu.rows[0].nume : 'Componenta';
+
+        console.log("Date dinamice incarcate (Bonus 1 complet):", app.locals.pretMin, app.locals.pretMax);
     } catch (err) {
-        console.error("Eroare la extragerea categoriilor:", err);
+        console.error("Eroare la extragerea datelor:", err);
     }
 }
-initCategorii(); // Apelam functia imediat
+initDateGlobale();
+
+// --- SISTEM DE OFERTE (BONUS 12) ---
+const fisierOferte = path.join(__dirname, 'oferte.json');
+if (!fs.existsSync(fisierOferte)) {
+    fs.writeFileSync(fisierOferte, JSON.stringify({ oferte: [] }));
+}
+
+function genereazaOferta() {
+    if (!app.locals.categorii || app.locals.categorii.length === 0) return;
+
+    let dateOferte = { oferte: [] };
+    try {
+        dateOferte = JSON.parse(fs.readFileSync(fisierOferte, 'utf8'));
+    } catch(e) {}
+
+    // Alegem categorie random (diferita de ultima)
+    let catNoua;
+    do {
+        catNoua = app.locals.categorii[Math.floor(Math.random() * app.locals.categorii.length)];
+    } while (dateOferte.oferte.length > 0 && dateOferte.oferte[0].categorie === catNoua && app.locals.categorii.length > 1);
+
+    let reduceri = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50];
+    let reducere = reduceri[Math.floor(Math.random() * reduceri.length)];
+
+    let acum = new Date();
+    // Oferta dureaza 60 de secunde pt prezentare
+    let finalizare = new Date(acum.getTime() + 60000);
+
+    let ofertaNoua = {
+        categorie: catNoua,
+        "data-incepere": acum.getTime(),
+        "data-finalizare": finalizare.getTime(),
+        reducere: reducere
+    };
+
+    dateOferte.oferte.unshift(ofertaNoua); // Punem oferta noua la inceput
+
+    // Curatare oferte mai vechi de 5 minute (T2)
+    let limitaT2 = acum.getTime() - 5 * 60000;
+    dateOferte.oferte = dateOferte.oferte.filter(o => o["data-finalizare"] > limitaT2);
+
+    fs.writeFileSync(fisierOferte, JSON.stringify(dateOferte));
+    app.locals.oferta_activa = ofertaNoua;
+}
+
+setTimeout(genereazaOferta, 2000); // Generam prima oferta dupa 2 secunde
+setInterval(genereazaOferta, 60000); // Regeneram la fiecare minut
 
 app.get('/produse', async (req, res) => {
     let categorieCeruta = req.query.categorie; // Ce a dat click utilizatorul in meniu

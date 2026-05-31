@@ -9,30 +9,39 @@
 <%- include('../fragmente/header') %>
 
 <main>
+<!--bonus 15-->
     <h1 class="titlu-pagina">Catalog Componente</h1>
+    <div style="display: inline-block; width: fit-content; height: fit-content; padding: 8px 15px; border: 2px solid var(--color-border); border-radius: 8px; font-weight: bold; color: var(--color-highlight); background-color: rgba(255, 255, 255, 0.05); margin-bottom: 15px;">
+        Produse afisate: <span id="counter-produse"><%= produse.length %></span>
+    </div>
 
+<!--bonus 1-->
     <section id="zona-filtre" class="container border rounded p-4 mb-5 shadow-sm" style="background: var(--menu-bg);">
         <h3 class="mb-4" style="color: var(--color-primary);">Filtrează Produsele</h3>
-
-        <div class="row g-3">
-            <div class="col-12 col-md-4">
-                <label class="form-label">Nume produs:</label>
-                <input type="text" class="form-control" id="i_nume" placeholder="Ex: AMD">
-            </div>
+        <div class="col-12 col-md-4">
+            <label class="form-label" for="i_nume">Nume produs:</label>
+            <input type="text" class="form-control" id="i_nume" placeholder="ex: <%= locals.numeExemplu %>" maxlength="<%= locals.numeMaxLen %>">
+        </div>
 
             <div class="col-12 col-md-4">
                 <label class="form-label d-flex justify-content-between">
                     <span>Preț maxim:</span>
-                    <strong id="val_curent" style="color: var(--color-highlight);">10000</strong>
+                    <strong id="val_curent" style="color: var(--color-highlight);"><%= locals.pretMax %></strong>
                 </label>
-                <input type="range" class="form-range" id="i_pret" min="0" max="10000" step="100" value="10000">
+                <input type="range" class="form-range" id="i_pret"
+                       min="<%= locals.pretMin %>"
+                       max="<%= locals.pretMax %>"
+                       step="10"
+                       value="<%= locals.pretMax %>">
             </div>
 
             <div class="col-12 col-md-4">
                 <label class="form-label">Culoare:</label>
                 <input class="form-control" list="lista-culori" id="i_culoare" placeholder="Scrie o culoare">
                 <datalist id="lista-culori">
-                    <option value="Alb"><option value="Negru"><option value="Argintiu">
+                    <% if(locals.culori) { for(let cul of locals.culori) { %>
+                    <option value="<%= cul %>">
+                        <% } } %>
                 </datalist>
             </div>
 
@@ -50,24 +59,22 @@
                 </div>
             </div>
 
-            <div class="col-12 col-md-6">
-                <label class="form-label">Subcategorie:</label>
-                <select class="form-select" id="i_subcat">
-                    <option value="toate" selected>Oricare</option>
-                    <option value="AM5">AM5</option>
-                    <option value="LGA1700">LGA1700</option>
-                    <option value="PCIe 4.0">PCIe 4.0</option>
-                    <option value="DDR5">DDR5</option>
-                    <option value="ATX">ATX</option>
-                </select>
-            </div>
+        <div class="col-12 col-md-4">
+            <label class="form-label">Subcategorie:</label>
+            <select class="form-select" id="i_subcat">
+                <option value="toate" selected>Toate</option>
+                <% if(locals.subcategorii) { for(let sub of locals.subcategorii) { %>
+                    <option value="<%= sub %>"><%= sub.replace(/_/g, ' ') %></option>
+                <% } } %>
+            </select>
+        </div>
 
-            <div class="col-12">
-                <div class="form-floating">
-                    <textarea class="form-control" id="i_descriere" placeholder="Introdu un cuvânt" style="height: 80px"></textarea>
-                    <label for="i_descriere">Cuvânt în descriere (min 3 caractere pt validare)</label>
-                </div>
+        <div class="col-12">
+            <div class="form-floating">
+                <textarea class="form-control" id="i_descriere" placeholder="Cauta in descriere" style="height: 100px" maxlength="<%= locals.descMaxLen %>"></textarea>
+                <label for="i_descriere">Cautare in descriere (max <%= locals.descMaxLen %> caractere)</label>
             </div>
+        </div>
         </div>
 
         <hr class="my-4" style="border-color: var(--color-border);">
@@ -93,40 +100,42 @@
 
     <div class="grid-produse">
         <%
-        // Array-uri pentru formatarea datei in romana
-        const luni = ['Ianuarie', 'Februarie', 'Martie', 'Aprilie', 'Mai', 'Iunie', 'Iulie', 'August', 'Septembrie', 'Octombrie', 'Noiembrie', 'Decembrie'];
-        const zile = ['Duminica', 'Luni', 'Marti', 'Miercuri', 'Joi', 'Vineri', 'Sambata'];
-
-                for(let prod of produse) {
-            // Formatam data: "15 Septembrie 2018 [Sambata]"
+        for(let prod of produse) {
             let d = new Date(prod.data_adaugare);
-            let dataFormatata = d.getDate() + ' ' + luni[d.getMonth()] + ' ' + d.getFullYear() + ' [' + zile[d.getDay()] + ']';
-            let dataISO = d.toISOString().split('T')[0];
+            let dataFormatata = d.getDate() + '/' + (d.getMonth()+1) + '/' + d.getFullYear();
+
+            // Verificam daca e la reducere
+            let areOferta = locals.oferta_activa && locals.oferta_activa.categorie === prod.categorie && new Date().getTime() < locals.oferta_activa['data-finalizare'];
+            let pretAfisat = prod.pret;
+            let htmlPret = `${prod.pret} RON`;
+
+            if (areOferta) {
+                pretAfisat = prod.pret - (prod.pret * locals.oferta_activa.reducere / 100);
+                htmlPret = `<s>${prod.pret}</s> <b style="color:red; font-size:1.1em;">${pretAfisat} RON</b> <span class="badge bg-danger">-${locals.oferta_activa.reducere}%</span>`;
+            }
         %>
 
         <article id="artc-<%= prod.id %>" class="produs <%= prod.categorie %>"
-                 data-pret="<%= prod.pret %>"
+                 data-categorie="<%= prod.categorie %>"
+                 data-pret="<%= pretAfisat %>"
                  data-putere="<%= prod.putere_w %>"
                  data-nume="<%= prod.nume %>"
                  data-subcat="<%= prod.subcategorie %>"
                  data-culoare="<%= prod.culoare %>"
                  data-rgb="<%= prod.iluminare_rgb ? '1' : '0' %>"
                  data-porturi="<%= prod.porturi %>">
+
             <h2><a href="/produs/<%= prod.id %>"><%= prod.nume %></a></h2>
 
             <div class="produs-coloane">
                 <div class="coloana-stanga">
-                    <figure>
-                        <img src="<%= prod.imagine %>" alt="<%= prod.nume %>" class="img-produs">
-                    </figure>
+                    <figure><img src="<%= prod.imagine %>" alt="<%= prod.nume %>" class="img-produs"></figure>
 
                     <ul class="lista-caracteristici">
-                        <li><span class="eticheta">Preț:</span> <%= prod.pret %> RON</li>
-                        <li><span class="eticheta">Consum (Putere):</span> <%= prod.putere_w %> W</li>
+                        <li><span class="eticheta">Preț:</span> <%- htmlPret %></li>
+                        <li><span class="eticheta">Consum:</span> <%= prod.putere_w %> W</li>
                         <li><span class="eticheta">Culoare:</span> <%= prod.culoare %></li>
                         <li><span class="eticheta">Porturi:</span> <%= prod.porturi %></li>
-                        <li><span class="eticheta">Iluminare RGB:</span> <%= prod.iluminare_rgb ? 'Da' : 'Nu' %></li>
-                        <li><span class="eticheta">Data adăugare:</span> <time datetime="<%= dataISO %>"><%= dataFormatata %></time></li>
                     </ul>
                 </div>
 
@@ -141,6 +150,9 @@
         </article>
 
         <% } %>
+    </div>
+    <div id="mesaj-lipsa" class="alert alert-danger" style="display: none; text-align: center; margin-top: 20px;">
+        Nu exista produse conform filtrarii curente.
     </div>
 </main>
 

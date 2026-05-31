@@ -59,4 +59,19 @@
             <li><a href="/#z2"><i class="fas fa-calendar-alt"></i> <span class="text-meniu">Evenimente</span></a></li>
         </ul>
     </nav>
+    <% if (locals.oferta_activa && new Date().getTime() < locals.oferta_activa['data-finalizare']) { %>
+        <script>
+            (function() {
+                let expirare = <%= locals.oferta_activa['data-finalizare'] %>;
+                let timpRamas = expirare - new Date().getTime();
+
+                if (timpRamas > 0) {
+                    // In secunda in care expira, dam refresh la pagina automat
+                    setTimeout(function() {
+                        window.location.reload();
+                    }, timpRamas);
+                }
+            })();
+        </script>
+    <% } %>
 </header>
